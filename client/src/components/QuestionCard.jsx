@@ -1,28 +1,6 @@
 import PropTypes from 'prop-types';
-import { DeleteIcon, XmarkIcon } from './Icons';
-
-const Option = ({ option, onDelete, onOptionChange }) => {
-   return (
-      <div className="flex items-center gap-3 w-64">
-         <input
-            type="text"
-            placeholder="Enter option"
-            className="w-full px-3 py-3 border-b text-gray-200 bg-transparent "
-            value={option.value}
-            onChange={(e) => onOptionChange(e.target.value)}
-         />
-         <button type="button" className="px-5 py-3 rounded-lg text-gray-200" onClick={onDelete}>
-            <XmarkIcon className="w-7 h-7" />
-         </button>
-      </div>
-   );
-};
-
-Option.propTypes = {
-   option: PropTypes.object.isRequired,
-   onDelete: PropTypes.func.isRequired,
-   onOptionChange: PropTypes.func.isRequired,
-};
+import { DeleteIcon } from './Icons';
+import Option from './Option';
 
 const QuestionCard = ({ question, onDelete, onQuestionChange }) => {
    const handleAddOption = () => {
@@ -57,7 +35,7 @@ const QuestionCard = ({ question, onDelete, onQuestionChange }) => {
             {/* type */}
             <select
                name="type"
-               id={question.id}
+               id={question._id}
                className="px-5 py-3 rounded-lg text-gray-200 bg-semiDark"
                onChange={(e) => onQuestionChange('type', e.target.value)}
                value={question.type}
@@ -75,7 +53,7 @@ const QuestionCard = ({ question, onDelete, onQuestionChange }) => {
                <p className="text-gray-200 font-semibold">Options</p>
                {question.options.map((option, index) => (
                   <Option
-                     key={index}
+                     key={question._id + index}
                      option={{ value: option }}
                      onDelete={() => handleDeleteOption(index)}
                      onOptionChange={(value) => handleOptionChange(index, value)}
@@ -97,10 +75,10 @@ const QuestionCard = ({ question, onDelete, onQuestionChange }) => {
                   type="checkbox"
                   name="isRequired"
                   checked={question.isRequired}
-                  id={`req${question.id}`}
+                  id={`req${question._id}`}
                   onChange={(e) => onQuestionChange('isRequired', e.target.checked)}
                />
-               <label className="text-gray-200" htmlFor={`req${question.id}`}>
+               <label className="text-gray-200" htmlFor={`req${question._id}`}>
                   Required
                </label>
             </div>

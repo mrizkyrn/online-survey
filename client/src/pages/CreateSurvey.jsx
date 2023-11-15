@@ -17,7 +17,6 @@ const CreateSurvey = () => {
       if (survey.description === '') return false;
       if (survey.startDate === '') return false;
       if (survey.endDate === '') return false;
-      if (questions.length === 0) return false;
 
       for (const question of questions) {
          if (question.question === '') return false;
@@ -66,7 +65,7 @@ const CreateSurvey = () => {
 
    const handleAddQuestion = () => {
       const newQuestion = {
-         id: new Date().getTime(),
+         _id: new Date().getTime(),
          question: '',
          type: 'short-answer',
          isRequired: false,
@@ -165,7 +164,7 @@ const CreateSurvey = () => {
             <h1 className="text-xl font-semibold text-gray-200 mt-4">Questions</h1>
             {questions.map((question) => (
                <QuestionCard
-                  key={question.id}
+                  key={question._id}
                   question={question}
                   onDelete={() => handleDeleteQuestion(question.id)}
                   onQuestionChange={(field, value) => handleQuestionChange(question.id, field, value)}

@@ -26,6 +26,20 @@ const EditSurvey = () => {
       getSurvey();
    }, [id]);
 
+   const isValid = () => {
+      if (survey.name === '') return false;
+      if (survey.description === '') return false;
+      if (survey.startDate === '') return false;
+      if (survey.endDate === '') return false;
+
+      for (const question of survey.question) {
+         if (question.question === '') return false;
+         if (question.type === '') return false;
+      }
+
+      return true;
+   };
+
    const formatDate = (date) => {
       const d = new Date(date);
       const year = d.getFullYear();
@@ -66,6 +80,11 @@ const EditSurvey = () => {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
+
+      if (!isValid()) {
+         alert('Please fill out all the fields');
+         return;
+      }
 
       console.log({
          survey: {
@@ -180,7 +199,7 @@ const EditSurvey = () => {
                {survey.questions &&
                   survey.questions.map((question) => (
                      <QuestionCard
-                        key={question.id}
+                        key={question._id}
                         question={question}
                         onDelete={() => handleDeleteQuestion(question.id)}
                         onQuestionChange={(field, value) => handleQuestionChange(question.id, field, value)}
