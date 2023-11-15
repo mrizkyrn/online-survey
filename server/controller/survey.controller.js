@@ -31,41 +31,15 @@ export const createWithQuestions = async (req, res, next) => {
    }
 };
 
-const exampleRequset = {
-   "survey": {
-      "name": "Survey 1",
-      "description": "This is the first survey",
-      "startDate": "2021-01-01T00:00:00.000Z",
-      "endDate": "2021-01-31T00:00:00.000Z"
-   },
-   "questions": [
-      {
-         "question": "What is your favorite color?",
-         "type": "multiple-choice",
-         "isRequired": true,
-         "options": [
-            "Red",
-            "Blue",
-            "Green"
-         ]
-      },
-      {
-         "question": "What is your favorite food?",
-         "type": "checkboxes",
-         "isRequired": true,
-         "options": [
-            "Pizza",
-            "Pasta",
-            "Burger",
-            "Salad",
-            "Fries"
-         ]
-      },
-      {
-         "question": "What is your favorite animal?",
-         "type": "short-answer",
-         "isRequired": true,
-         "options": []
-      }
-   ]
+export const getAll = async (req, res, next) => {
+   try {
+      const surveys = await Survey.find().populate('questions');
+
+      res.status(200).json({
+         success: true,
+         data: surveys,
+      });
+   } catch (error) {
+      next(error);
+   }
 };

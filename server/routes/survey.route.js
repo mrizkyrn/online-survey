@@ -1,9 +1,9 @@
 import express from 'express';
-import { createWithQuestions } from '../controller/survey.controller.js';
+import { createWithQuestions, getAll } from '../controller/survey.controller.js';
 
 const router = express.Router();
 
 router.post('/', createWithQuestions);
-// router.put('/:id', update);
+router.get('/', getAll);
 
 export default router;

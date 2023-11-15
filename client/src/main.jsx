@@ -4,11 +4,21 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './index.css';
 import CreateSurvey from './pages/CreateSurvey';
 import Layout from './components/Layout';
+import Dashboard from './pages/Dashboard';
 
 const router = createBrowserRouter([
    {
       element: <Layout />,
-      children: [{ path: '/create', element: <CreateSurvey /> }],
+      children: [
+         {
+            path: '/create',
+            element: <CreateSurvey />,
+         },
+         {
+            path: '/',
+            element: <Dashboard />,
+         },
+      ],
    },
 ]);
 

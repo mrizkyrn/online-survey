@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { DeleteIcon } from './Icons';
+import { DeleteIcon, XmarkIcon } from './Icons';
 
 const Option = ({ option, onDelete, onOptionChange }) => {
    return (
@@ -11,8 +11,8 @@ const Option = ({ option, onDelete, onOptionChange }) => {
             value={option.value}
             onChange={(e) => onOptionChange(e.target.value)}
          />
-         <button className="px-5 py-3 rounded-lg text-gray-200" onClick={onDelete}>
-            <DeleteIcon className="w-5 h-5" />
+         <button type="button" className="px-5 py-3 rounded-lg text-gray-200" onClick={onDelete}>
+            <XmarkIcon className="w-7 h-7" />
          </button>
       </div>
    );
@@ -30,7 +30,10 @@ const QuestionCard = ({ question, onDelete, onQuestionChange }) => {
    };
 
    const handleDeleteOption = (index) => {
-      onQuestionChange('options', question.options.filter((_, i) => i !== index));
+      onQuestionChange(
+         'options',
+         question.options.filter((_, i) => i !== index)
+      );
    };
 
    const handleOptionChange = (index, value) => {
