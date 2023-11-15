@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import BackButton from '../components/BackButton';
 import QuestionCard from '../components/QuestionCard';
@@ -9,14 +10,41 @@ const CreateSurvey = () => {
       startDate: '',
       endDate: '',
    });
-   const [questions, setQuestions] = useState([]);
+   const [questions, setQuestions] = useState([ ]);
+
+   const isValid = () => {
+      if (survey.name === '') return false;
+      if (survey.description === '') return false;
+      if (survey.startDate === '') return false;
+      if (survey.endDate === '') return false;
+      if (questions.length === 0) return false;
+
+      for (const question of questions) {
+         if (question.question === '') return false;
+         if (question.type === '') return false;
+      }
+
+      return true;
+   };
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-      console.log({
-         survey,
-         questions,
+
+      if (!isValid()) {
+         alert('Please fill out all the fields');
+         return;
+      }
+      
+      const questionsWithoutId = questions.map(({ id, ...rest }) => rest);
+
+      const questionsWithOptions = questionsWithoutId.map((question) => {
+         if (question.type !== 'multiple-choice' && question.type !== 'checkboxes') {
+            return { ...question, options: [] };
+         }
+         return question;
       });
+
+      console.log({ survey, questionsWithOptions });
 
       try {
          const res = await fetch('http://localhost:3000/api/surveys', {
@@ -26,10 +54,9 @@ const CreateSurvey = () => {
             },
             body: JSON.stringify({
                survey,
-               questions,
+               questions: questionsWithoutId,
             }),
          });
-
          const data = await res.json();
          console.log(data);
       } catch (err) {
@@ -39,20 +66,28 @@ const CreateSurvey = () => {
 
    const handleAddQuestion = () => {
       const newQuestion = {
+         id: new Date().getTime(),
          question: '',
          type: 'short-answer',
          isRequired: false,
-         options: [''],
+         options: [],
       };
 
-      // Update the questions state with the new question
       setQuestions([...questions, newQuestion]);
    };
 
-   const handleQuestionChange = (index, field, value) => {
-      // Update a specific field in the question at the given index
-      const newQuestions = [...questions];
-      newQuestions[index][field] = value;
+   const handleDeleteQuestion = (id) => {
+      const newQuestions = questions.filter((question) => question.id !== id);
+      setQuestions(newQuestions);
+   };
+
+   const handleQuestionChange = (id, field, value) => {
+      const newQuestions = questions.map((question) => {
+         if (question.id === id) {
+            return { ...question, [field]: value };
+         }
+         return question;
+      });
       setQuestions(newQuestions);
    };
 
@@ -128,14 +163,12 @@ const CreateSurvey = () => {
 
             {/* Questions */}
             <h1 className="text-xl font-semibold text-gray-200 mt-4">Questions</h1>
-            {questions.map((question, index) => (
+            {questions.map((question) => (
                <QuestionCard
-                  key={index}
-                  question={question.question}
-                  type={question.type}
-                  isRequired={question.isRequired}
-                  options={question.options}
-                  onQuestionChange={(field, value) => handleQuestionChange(index, field, value)}
+                  key={question.id}
+                  question={question}
+                  onDelete={() => handleDeleteQuestion(question.id)}
+                  onQuestionChange={(field, value) => handleQuestionChange(question.id, field, value)}
                />
             ))}
 
