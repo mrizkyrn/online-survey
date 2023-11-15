@@ -1,6 +1,23 @@
 import Survey from '../models/survey.model.js';
 import Question from '../models/question.model.js';
 
+export const create = async (req, res, next) => {
+   console.log(req.body);
+   try {
+      const { survey } = req.body;
+
+      const newSurvey = new Survey(survey);
+      const createdSurvey = await newSurvey.save();
+
+      res.status(201).json({
+         success: true,
+         data: createdSurvey,
+      });
+   } catch (error) {
+      next(error);
+   }
+};
+
 export const createWithQuestions = async (req, res, next) => {
    try {
       const { survey, questions } = req.body;
@@ -38,6 +55,76 @@ export const getAll = async (req, res, next) => {
       res.status(200).json({
          success: true,
          data: surveys,
+      });
+   } catch (error) {
+      next(error);
+   }
+};
+
+export const update = async (req, res, next) => {
+   try {
+      const { surveyId } = req.params;
+      const { survey } = req.body;
+
+      const updatedSurvey = await Survey.findByIdAndUpdate(surveyId, survey, { new: true });
+
+      res.status(200).json({
+         success: true,
+         data: updatedSurvey,
+      });
+   } catch (error) {
+      next(error);
+   }
+};
+
+// get survey by id
+export const getById = async (req, res, next) => {
+   try {
+      const { surveyId } = req.params;
+
+      const survey = await Survey.findById(surveyId).populate('questions');
+
+      res.status(200).json({
+         success: true,
+         data: survey,
+      });
+   } catch (error) {
+      next(error);
+   }
+};
+
+export const updateWithQuestions = async (req, res, next) => {
+   console.log(req.body);
+   try {
+      const { survey, questions } = req.body;
+      const { surveyId } = req.params;
+
+      // Update survey details
+      const updatedSurvey = await Survey.findByIdAndUpdate(surveyId, survey, { new: true });
+
+      // Update or create questions
+      const updatedQuestions = await Promise.all(
+         questions.map(async (question) => {
+            if (question._id) {
+               // If question has an _id, update the existing question
+               await Question.findByIdAndUpdate(question._id, question, { new: true });
+               return question;
+            } else {
+               // If question doesn't have an _id, create a new question
+               const newQuestion = new Question(question);
+               await newQuestion.save();
+               return newQuestion;
+            }
+         })
+      );
+
+      // Update survey's questions array with updated or new question IDs
+      updatedSurvey.questions = updatedQuestions.map((question) => question._id);
+      await updatedSurvey.save();
+
+      res.status(200).json({
+         success: true,
+         data: updatedSurvey,
       });
    } catch (error) {
       next(error);

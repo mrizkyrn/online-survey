@@ -5,6 +5,7 @@ import './index.css';
 import CreateSurvey from './pages/CreateSurvey';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
+import EditSurvey from './pages/EditSurvey';
 
 const router = createBrowserRouter([
    {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
          {
             path: '/',
             element: <Dashboard />,
+         },
+         {
+            path: '/:id/edit',
+            element: <EditSurvey />,
          },
       ],
    },
