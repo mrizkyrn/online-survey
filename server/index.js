@@ -1,7 +1,9 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const cors = require('cors');
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import cors from 'cors';
+
+import surveyRoutes from './routes/survey.route.js';
 
 dotenv.config({ path: '../.env' });
 
@@ -24,12 +26,8 @@ app.listen(3000, () => {
 });
 
 // Routes
-app.get('/', (req, res, next) => {
-   res.json({
-      success: true,
-      message: 'Hello world',
-   });
-});
+app.use('/api/surveys', surveyRoutes);
+
 
 // Middleware
 app.use((error, req, res, next) => {
