@@ -1,11 +1,9 @@
 import express from 'express';
-import { create } from '../controller/survey.controller.js';
+import { createWithQuestions } from '../controller/survey.controller.js';
 
 const router = express.Router();
 
-router.post('/', create);
-router.get('/', (req, res) => {
-   res.send('Hello World');
-});
+router.post('/', createWithQuestions);
+// router.put('/:id', update);
 
 export default router;
