@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input[type="date"] {
+   color-scheme: light dark;
+}
+
+input[type="time"] {
+   color-scheme: light dark;
+}

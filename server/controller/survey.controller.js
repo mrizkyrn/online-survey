@@ -12,6 +12,8 @@ export const createWithQuestions = async (req, res, next) => {
          return new Question(question);
       });
 
+      console.log(newQuestions);
+
       const createdQuestions = await Question.insertMany(newQuestions);
 
       createdQuestions.forEach((question) => {
