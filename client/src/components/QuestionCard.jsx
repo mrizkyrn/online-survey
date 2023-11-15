@@ -39,6 +39,7 @@ const QuestionCard = ({ question, onDelete, onQuestionChange }) => {
                className="px-5 py-3 rounded-lg text-gray-200 bg-semiDark"
                onChange={(e) => onQuestionChange('type', e.target.value)}
                value={question.type}
+               aria-label="question type"
             >
                <option value="short-answer">Short Answer</option>
                <option value="long-answer">Long Answer</option>
@@ -82,7 +83,11 @@ const QuestionCard = ({ question, onDelete, onQuestionChange }) => {
                   Required
                </label>
             </div>
-            <button className="px-5 py-3 rounded-lg text-gray-200 ml-auto" onClick={onDelete}>
+            <button
+               className="px-5 py-3 rounded-lg text-gray-200 ml-auto"
+               onClick={onDelete}
+               aria-label="delete question"
+            >
                <DeleteIcon className="w-5 h-5" />
             </button>
          </div>

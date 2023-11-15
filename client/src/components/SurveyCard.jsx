@@ -29,7 +29,7 @@ const SurveyCard = ({ survey }) => {
          </div>
          <div className="flex justify-between items-center">
             <Link
-               to={`/survey/${survey._id}`}
+               to={`/${survey._id}`}
                className="text-gray-500 font-semibold hover:text-primary transition duration-200"
             >
                View Detail

@@ -6,6 +6,7 @@ import CreateSurvey from './pages/CreateSurvey';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import EditSurvey from './pages/EditSurvey';
+import DetailSurvey from './pages/DetailSurvey';
 
 const router = createBrowserRouter([
    {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
          {
             path: '/',
             element: <Dashboard />,
+         },
+         {
+            path: '/:id',
+            element: <DetailSurvey />,
          },
          {
             path: '/:id/edit',

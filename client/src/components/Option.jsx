@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import { XmarkIcon } from "./Icons";
+import PropTypes from 'prop-types';
+import { XmarkIcon } from './Icons';
 
 const Option = ({ option, onDelete, onOptionChange }) => {
    return (
@@ -11,7 +11,12 @@ const Option = ({ option, onDelete, onOptionChange }) => {
             value={option.value}
             onChange={(e) => onOptionChange(e.target.value)}
          />
-         <button type="button" className="px-5 py-3 rounded-lg text-gray-200" onClick={onDelete}>
+         <button
+            type="button"
+            className="px-5 py-3 rounded-lg text-gray-200"
+            onClick={onDelete}
+            aria-label="Delete option"
+         >
             <XmarkIcon className="w-7 h-7" />
          </button>
       </div>

@@ -122,7 +122,7 @@ const EditSurvey = () => {
    return (
       <div className="bg-semiDark">
          <div>
-            <BackButton />
+            <BackButton relative='route' />
             <h1 className="inline text-3xl font-semibold text-gray-200 ml-2">Update Survey</h1>
          </div>
 
