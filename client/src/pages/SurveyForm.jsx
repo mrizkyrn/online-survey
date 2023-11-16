@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import CheckboxField from './ChecboxField';
-import ShortField from './ShortField';
-import LongField from './LongField';
-import MultipleField from './MultipleField';
+import ShortField from '../components/ShortField';
+import LongField from '../components/LongField';
+import MultipleField from '../components/MultipleField';
+import CheckboxField from '../components/ChecboxField';
+
 
 const QuestionField = ({ question, onAnswerChange }) => {
    switch (question.type) {

@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import EditSurvey from './pages/EditSurvey';
 import DetailSurvey from './pages/DetailSurvey';
 import SurveyForm from './pages/SurveyForm';
+import SurveyQuestion from './pages/SurveyQuestion';
 
 const router = createBrowserRouter([
    {
@@ -24,6 +25,16 @@ const router = createBrowserRouter([
          {
             path: '/:id',
             element: <DetailSurvey />,
+            children: [
+               {
+                  index: true,
+                  element: <SurveyQuestion />,
+               },
+               {
+                  path: 'responses',
+                  element: <h1>Responses</h1>,
+               }
+            ],
          },
          {
             path: '/:id/edit',
