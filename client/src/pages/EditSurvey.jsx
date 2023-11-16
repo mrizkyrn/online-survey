@@ -69,7 +69,6 @@ const EditSurvey = () => {
    };
 
    const handleAddQuestion = () => {
-
       const newQuestion = {
          _id: Math.random().toString(36).substr(2, 9),
          question: '',
@@ -103,9 +102,6 @@ const EditSurvey = () => {
          return question;
       });
 
-      
-      
-
       try {
          const res = await fetch(`http://localhost:3000/api/surveys/${id}`, {
             method: 'PUT',
@@ -132,7 +128,7 @@ const EditSurvey = () => {
    return (
       <div className="bg-semiDark">
          <div>
-            <BackButton relative='route' />
+            <BackButton relative="route" />
             <h1 className="inline text-3xl font-semibold text-gray-200 ml-2">Update Survey</h1>
          </div>
 
@@ -159,13 +155,13 @@ const EditSurvey = () => {
                   <label htmlFor="description" className="text-gray-200">
                      Description *
                   </label>
-                  <input
-                     type="text"
+                  <textarea
                      name="description"
                      id="description"
                      placeholder="Enter survey description"
-                     className="bg-[#212e42] px-5 py-3 rounded-md text-gray-200"
+                     rows="3"
                      value={survey.description}
+                     className="bg-[#212e42] px-5 py-3 rounded-md text-gray-200"
                      onChange={(e) => setSurvey({ ...survey, description: e.target.value })}
                   />
                </div>

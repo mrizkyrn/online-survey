@@ -116,11 +116,11 @@ const CreateSurvey = () => {
                <label htmlFor="description" className="text-gray-200">
                   Description *
                </label>
-               <input
-                  type="text"
+               <textarea
                   name="description"
                   id="description"
                   placeholder="Enter survey description"
+                  rows="3"
                   className="bg-[#212e42] px-5 py-3 rounded-md text-gray-200"
                   onChange={(e) => setSurvey({ ...survey, description: e.target.value })}
                />

@@ -23,7 +23,7 @@ const questionSchema = new mongoose.Schema(
       ],
       responses: [
          {
-            type: String,
+            type: mongoose.Schema.Types.Mixed,
          },
       ],
    },

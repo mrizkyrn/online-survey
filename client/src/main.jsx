@@ -7,6 +7,7 @@ import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import EditSurvey from './pages/EditSurvey';
 import DetailSurvey from './pages/DetailSurvey';
+import SurveyForm from './pages/SurveyForm';
 
 const router = createBrowserRouter([
    {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
             path: '/:id/edit',
             element: <EditSurvey />,
          },
+         {
+            path: '/:id/viewform',
+            element: <SurveyForm />,
+         }
       ],
    },
 ]);

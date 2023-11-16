@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { DeleteIcon, EditIcon } from './Icons';
+import { DeleteIcon, EditIcon, LinkIcon } from './Icons';
 import { Link } from 'react-router-dom';
 
 const SurveyCard = ({ survey, onDelete }) => {
@@ -15,6 +15,12 @@ const SurveyCard = ({ survey, onDelete }) => {
             <div className="flex justify-between items-center">
                <h1 className="text-2xl font-bold text-gray-200">{survey.name}</h1>
                <div className="flex gap-5">
+                  <Link
+                     to={`/${survey._id}/viewform`}
+                     className="text-gray-200 font-semibold hover:text-primary transition duration-200"
+                  >
+                     <LinkIcon className="w-5 h-5 " />
+                  </Link>
                   <Link
                      to={`/${survey._id}/edit`}
                      className="text-gray-200 font-semibold hover:text-primary transition duration-200"

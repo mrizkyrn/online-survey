@@ -6,7 +6,6 @@ const Dashboard = () => {
    const [surveys, setSurveys] = useState([]);
 
    useEffect(() => {
-      console.log('useEffect');
       const getSurveys = async () => {
          const res = await fetch('http://localhost:3000/api/surveys');
          const data = await res.json();
@@ -16,7 +15,6 @@ const Dashboard = () => {
    }, []);
 
    const handleDelete = async (surveyId) => {
-      console.log(surveyId);
       try {
          const res = await fetch(`http://localhost:3000/api/surveys/${surveyId}`, {
             method: 'DELETE',
