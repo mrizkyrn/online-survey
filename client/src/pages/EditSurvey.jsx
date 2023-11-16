@@ -88,14 +88,23 @@ const EditSurvey = () => {
          return;
       }
 
-      const questionsWithoutId = survey.questions.map(({ _id, ...rest }) => rest);
+      const validId = survey.questions.map((question) => {
+         if (question._id.length !== 24) {
+            const { _id, ...rest } = question;
+            return rest;
+         }
+         return question;
+      });
 
-      const validQuestions = questionsWithoutId.map((question) => {
+      const validQuestions = validId.map((question) => {
          if (question.type !== 'multiple-choice' && question.type !== 'checkboxes') {
             return { ...question, options: [] };
          }
          return question;
       });
+
+      
+      
 
       try {
          const res = await fetch(`http://localhost:3000/api/surveys/${id}`, {
