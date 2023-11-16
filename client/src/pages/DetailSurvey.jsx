@@ -22,8 +22,6 @@ const DetailSurvey = () => {
 
    if (!survey) return <p>Loading...</p>;
 
-   console.log(survey);
-
    return (
       <div>
          <div>
@@ -41,19 +39,18 @@ const DetailSurvey = () => {
                   <p className="text-gray-300 mt-2">{question.type}</p>
                   <p className="text-gray-400 mt-2">{question.isRequired ? 'Required' : 'Not Required'}</p>
 
-                  {question.type === 'multiple-choice' ||
-                     (question.type === 'checkboxes' && (
-                        <div className="mt-4">
-                           <h3 className="text-lg font-semibold text-light">Options:</h3>
-                           <ul className="list-disc list-inside">
-                              {question.options.map((option) => (
-                                 <li key={option._id} className="text-gray-300 mt-2">
-                                    {option}
-                                 </li>
-                              ))}
-                           </ul>
-                        </div>
-                     ))}
+                  {question.type === "multiple-choice" || question.type === "checkboxes" ? (
+                     <div className="mt-4">
+                        <h3 className="text-lg font-semibold text-light">Options:</h3>
+                        <ul className="list-disc list-inside">
+                           {question.options.map((option, index) => (
+                              <li key={index} className="text-gray-300 mt-2">
+                                 {option}
+                              </li>
+                           ))}
+                        </ul>
+                     </div>
+                  ) : null}
                </div>
             ))}
          </div>

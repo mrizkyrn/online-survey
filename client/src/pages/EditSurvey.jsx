@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import BackButton from '../components/BackButton';
 import { useParams } from 'react-router-dom';
@@ -32,7 +33,7 @@ const EditSurvey = () => {
       if (survey.startDate === '') return false;
       if (survey.endDate === '') return false;
 
-      for (const question of survey.question) {
+      for (const question of survey.questions) {
          if (question.question === '') return false;
          if (question.type === '') return false;
       }
@@ -51,7 +52,7 @@ const EditSurvey = () => {
    const handleDeleteQuestion = (questionId) => {
       setSurvey({
          ...survey,
-         questions: survey.questions.filter((question) => question.id !== questionId),
+         questions: survey.questions.filter((question) => question._id !== questionId),
       });
    };
 
@@ -59,7 +60,7 @@ const EditSurvey = () => {
       setSurvey({
          ...survey,
          questions: survey.questions.map((question) => {
-            if (question.id === questionId) {
+            if (question._id === questionId) {
                return { ...question, [field]: value };
             }
             return question;
@@ -70,9 +71,10 @@ const EditSurvey = () => {
    const handleAddQuestion = () => {
 
       const newQuestion = {
-         id: Math.random().toString(36).substr(2, 9),
+         _id: Math.random().toString(36).substr(2, 9),
          question: '',
          type: 'short-answer',
+         isRequired: false,
          options: [],
       };
       setSurvey({ ...survey, questions: [...survey.questions, newQuestion] });
@@ -86,14 +88,13 @@ const EditSurvey = () => {
          return;
       }
 
-      console.log({
-         survey: {
-            name: survey.name,
-            description: survey.description,
-            startDate: survey.startDate,
-            endDate: survey.endDate,
-         },
-         questions: survey.questions,
+      const questionsWithoutId = survey.questions.map(({ _id, ...rest }) => rest);
+
+      const validQuestions = questionsWithoutId.map((question) => {
+         if (question.type !== 'multiple-choice' && question.type !== 'checkboxes') {
+            return { ...question, options: [] };
+         }
+         return question;
       });
 
       try {
@@ -109,7 +110,7 @@ const EditSurvey = () => {
                   startDate: survey.startDate,
                   endDate: survey.endDate,
                },
-               questions: survey.questions,
+               questions: validQuestions,
             }),
          });
          const data = await res.json();
@@ -201,8 +202,8 @@ const EditSurvey = () => {
                      <QuestionCard
                         key={question._id}
                         question={question}
-                        onDelete={() => handleDeleteQuestion(question.id)}
-                        onQuestionChange={(field, value) => handleQuestionChange(question.id, field, value)}
+                        onDelete={() => handleDeleteQuestion(question._id)}
+                        onQuestionChange={(field, value) => handleQuestionChange(question._id, field, value)}
                      />
                   ))}
 

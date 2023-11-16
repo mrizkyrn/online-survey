@@ -34,7 +34,7 @@ const CreateSurvey = () => {
          return;
       }
       
-      const questionsWithoutId = questions.map(({ id, ...rest }) => rest);
+      const questionsWithoutId = questions.map(({ _id, ...rest }) => rest);
 
       const questionsWithOptions = questionsWithoutId.map((question) => {
          if (question.type !== 'multiple-choice' && question.type !== 'checkboxes') {
@@ -42,8 +42,6 @@ const CreateSurvey = () => {
          }
          return question;
       });
-
-      console.log({ survey, questionsWithOptions });
 
       try {
          const res = await fetch('http://localhost:3000/api/surveys', {
@@ -53,7 +51,7 @@ const CreateSurvey = () => {
             },
             body: JSON.stringify({
                survey,
-               questions: questionsWithoutId,
+               questions: questionsWithOptions,
             }),
          });
          const data = await res.json();
@@ -76,13 +74,13 @@ const CreateSurvey = () => {
    };
 
    const handleDeleteQuestion = (id) => {
-      const newQuestions = questions.filter((question) => question.id !== id);
+      const newQuestions = questions.filter((question) => question._id !== id);
       setQuestions(newQuestions);
    };
 
    const handleQuestionChange = (id, field, value) => {
       const newQuestions = questions.map((question) => {
-         if (question.id === id) {
+         if (question._id === id) {
             return { ...question, [field]: value };
          }
          return question;
@@ -166,8 +164,8 @@ const CreateSurvey = () => {
                <QuestionCard
                   key={question._id}
                   question={question}
-                  onDelete={() => handleDeleteQuestion(question.id)}
-                  onQuestionChange={(field, value) => handleQuestionChange(question.id, field, value)}
+                  onDelete={() => handleDeleteQuestion(question._id)}
+                  onQuestionChange={(field, value) => handleQuestionChange(question._id, field, value)}
                />
             ))}
 

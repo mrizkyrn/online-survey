@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { DeleteIcon, EditIcon } from './Icons';
 import { Link } from 'react-router-dom';
 
-const SurveyCard = ({ survey }) => {
+const SurveyCard = ({ survey, onDelete }) => {
    const createdAt = new Date(survey.createdAt).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
@@ -21,8 +21,13 @@ const SurveyCard = ({ survey }) => {
                   >
                      <EditIcon className="w-5 h-5 " />
                   </Link>
-                  
-                  <DeleteIcon className="w-5 h-5 text-gray-200 cursor-pointer hover:text-primary transition duration-200" />
+
+                  <button
+                     onClick={onDelete}
+                     className="text-gray-200 cursor-pointer hover:text-primary transition duration-200"
+                  >
+                     <DeleteIcon className="w-5 h-5" />
+                  </button>
                </div>
             </div>
             <p className="leading-6 mt-1 line-clamp-1 text-gray-300">{survey.description}</p>
@@ -42,6 +47,7 @@ const SurveyCard = ({ survey }) => {
 
 SurveyCard.propTypes = {
    survey: PropTypes.object.isRequired,
+   onDelete: PropTypes.func.isRequired,
 };
 
 export default SurveyCard;

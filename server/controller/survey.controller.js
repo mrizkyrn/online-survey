@@ -12,8 +12,6 @@ export const createWithQuestions = async (req, res, next) => {
          return new Question(question);
       });
 
-      console.log(newQuestions);
-
       const createdQuestions = await Question.insertMany(newQuestions);
 
       createdQuestions.forEach((question) => {
@@ -44,7 +42,6 @@ export const getAll = async (req, res, next) => {
    }
 };
 
-// get survey by id
 export const getById = async (req, res, next) => {
    try {
       const { surveyId } = req.params;
@@ -97,3 +94,20 @@ export const updateWithQuestions = async (req, res, next) => {
       next(error);
    }
 };
+
+export const deleteWithQuestions = async (req, res, next) => {
+   try {
+      const { surveyId } = req.params;
+
+      const deletedSurvey = await Survey.findByIdAndDelete(surveyId);
+
+      await Question.deleteMany({ _id: { $in: deletedSurvey.questions } });
+
+      res.status(200).json({
+         success: true,
+         message: 'Survey and questions deleted successfully.',
+      });
+   } catch (error) {
+      next(error);
+   }
+}

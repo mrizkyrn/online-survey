@@ -1,5 +1,5 @@
 import express from 'express';
-import { createWithQuestions, getAll, getById, updateWithQuestions } from '../controller/survey.controller.js';
+import { createWithQuestions, deleteWithQuestions, getAll, getById, updateWithQuestions } from '../controller/survey.controller.js';
 
 const router = express.Router();
 
@@ -7,5 +7,6 @@ router.post('/', createWithQuestions);
 router.get('/', getAll);
 router.get('/:surveyId', getById);
 router.put('/:surveyId', updateWithQuestions);
+router.delete('/:surveyId', deleteWithQuestions);
 
 export default router;

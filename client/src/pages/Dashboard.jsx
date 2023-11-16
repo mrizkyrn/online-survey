@@ -6,6 +6,7 @@ const Dashboard = () => {
    const [surveys, setSurveys] = useState([]);
 
    useEffect(() => {
+      console.log('useEffect');
       const getSurveys = async () => {
          const res = await fetch('http://localhost:3000/api/surveys');
          const data = await res.json();
@@ -13,6 +14,25 @@ const Dashboard = () => {
       };
       getSurveys();
    }, []);
+
+   const handleDelete = async (surveyId) => {
+      console.log(surveyId);
+      try {
+         const res = await fetch(`http://localhost:3000/api/surveys/${surveyId}`, {
+            method: 'DELETE',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+         });
+         const data = await res.json();
+         console.log(data);
+
+         // Update state by removing the deleted survey
+         setSurveys((prevSurveys) => prevSurveys.filter((survey) => survey._id !== surveyId));
+      } catch (err) {
+         console.log(err);
+      }
+   };
 
    return (
       <div>
@@ -24,7 +44,7 @@ const Dashboard = () => {
          </div>
          <div className="flex flex-col gap-5 mt-10">
             {surveys ? (
-               surveys.map((survey) => <SurveyCard key={survey._id} survey={survey} />)
+               surveys.map((survey) => <SurveyCard key={survey._id} survey={survey} onDelete={() => handleDelete(survey._id)} />)
             ) : (
                <p className="text-xl text-gray-400">No surveys found</p>
             )}

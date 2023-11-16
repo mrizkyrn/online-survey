@@ -21,16 +21,14 @@ const questionSchema = new mongoose.Schema(
             type: String,
          },
       ],
+      responses: [
+         {
+            type: String,
+         },
+      ],
    },
 );
 
 const Question = mongoose.model('Question', questionSchema);
 
 export default Question;
-
-// const dummyQuestion = {
-//    "question": "What is your name?",
-//    "type": "short-answer",
-//    "isRequired": true,
-//    "options": []
-// };
