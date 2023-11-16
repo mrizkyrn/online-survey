@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const MultipleField = ({ question, onAnswerChange }) => {
+const MultipleField = ({ question, onResponseChange }) => {
    return (
       <div className="flex flex-col gap-2">
          {question.options.map((option, index) => (
@@ -11,7 +11,7 @@ const MultipleField = ({ question, onAnswerChange }) => {
                   value={option}
                   required={question.isRequired}
                   className="mr-2"
-                  onChange={() => onAnswerChange(option)}
+                  onChange={() => onResponseChange(option)}
                />
                <span className="text-gray-200">{option}</span>
             </label>
@@ -27,7 +27,7 @@ MultipleField.propTypes = {
       isRequired: PropTypes.bool.isRequired,
       options: PropTypes.arrayOf(PropTypes.string).isRequired,
    }).isRequired,
-   onAnswerChange: PropTypes.func.isRequired,
+   onResponseChange: PropTypes.func.isRequired,
 };
 
 export default MultipleField;

@@ -6,17 +6,16 @@ import LongField from '../components/LongField';
 import MultipleField from '../components/MultipleField';
 import CheckboxField from '../components/ChecboxField';
 
-
-const QuestionField = ({ question, onAnswerChange }) => {
+const QuestionField = ({ question, onResponseChange }) => {
    switch (question.type) {
       case 'short-answer':
-         return <ShortField question={question} onAnswerChange={onAnswerChange} />;
+         return <ShortField question={question} onResponseChange={onResponseChange} />;
       case 'long-answer':
-         return <LongField question={question} onAnswerChange={onAnswerChange} />;
+         return <LongField question={question} onResponseChange={onResponseChange} />;
       case 'multiple-choice':
-         return <MultipleField question={question} onAnswerChange={onAnswerChange} />;
+         return <MultipleField question={question} onResponseChange={onResponseChange} />;
       case 'checkboxes':
-         return <CheckboxField question={question} onAnswerChange={onAnswerChange} />;
+         return <CheckboxField question={question} onResponseChange={onResponseChange} />;
       default:
          return null;
    }
@@ -31,7 +30,7 @@ const SurveyForm = () => {
       endDate: '',
       questions: [],
    });
-   const [responses, setResponses] = useState({});
+   const [responses, setResponses] = useState([]);
 
    useEffect(() => {
       const getSurvey = async () => {
@@ -49,31 +48,41 @@ const SurveyForm = () => {
 
    if (!survey) return <p>Loading...</p>;
 
-   const handleAnswerChange = (questionId, answer) => {
-      setResponses({
-         ...responses,
-         [questionId]: answer,
-      });
+   const handleResponseChange = (questionId, response) => {
+      const newResponses = [...responses];
+      const index = newResponses.findIndex((response) => response.questionId === questionId);
+
+      if (index === -1) {
+         newResponses.push({
+            response,
+            questionId,
+            surveyId: id,
+         });
+      } else {
+         newResponses[index].response = response;
+      }
+
+      setResponses(newResponses);
    };
 
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      try {
-         const res = await fetch(`http://localhost:3000/api/${id}/questions`, {
-            method: 'PUT',
-            headers: {
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-               responses,
-            }),
-         });
-         const data = await res.json();
-         console.log(data);
-      } catch (err) {
-         console.log(err);
-      }
+      console.log(responses);
+
+      const res = await fetch(`http://localhost:3000/api/responses`, {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+         },
+         body: JSON.stringify({
+            responses,
+         }),
+      });
+
+      const data = await res.json();
+
+      console.log(data);
    };
 
    return (
@@ -88,7 +97,7 @@ const SurveyForm = () => {
                   </h2>
                   <QuestionField
                      question={question}
-                     onAnswerChange={(answer) => handleAnswerChange(question._id, answer)}
+                     onResponseChange={(response) => handleResponseChange(question._id, response)}
                   />
                </div>
             ))}

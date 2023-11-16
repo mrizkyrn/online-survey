@@ -23,7 +23,8 @@ const questionSchema = new mongoose.Schema(
       ],
       responses: [
          {
-            type: mongoose.Schema.Types.Mixed,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Response',
          },
       ],
    },

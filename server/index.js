@@ -5,6 +5,7 @@ import cors from 'cors';
 
 import surveyRoutes from './routes/survey.route.js';
 import questionRoutes from './routes/question.route.js';
+import responseRoutes from './routes/response.route.js';
 
 dotenv.config({ path: '../.env' });
 
@@ -29,6 +30,7 @@ app.listen(3000, () => {
 // Routes
 app.use('/api/surveys', surveyRoutes);
 app.use('/api', questionRoutes);
+app.use('/api/responses', responseRoutes);
 
 // Middleware
 app.use((error, req, res, next) => {

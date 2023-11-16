@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const CheckboxField = ({ question, onAnswerChange }) => {
+const CheckboxField = ({ question, onResponseChange }) => {
    const [selectedOptions, setSelectedOptions] = useState([]);
 
    const handleCheckboxChange = (option) => {
@@ -10,9 +10,9 @@ const CheckboxField = ({ question, onAnswerChange }) => {
          ? selectedOptions.filter((selected) => selected !== option)
          : [...selectedOptions, option];
 
-      // Update the state and call the onAnswerChange callback
+      // Update the state and call the onResponseChange callback
       setSelectedOptions(updatedOptions);
-      onAnswerChange(updatedOptions);
+      onResponseChange(updatedOptions);
    };
 
    return (
@@ -40,7 +40,7 @@ CheckboxField.propTypes = {
       type: PropTypes.string.isRequired,
       options: PropTypes.arrayOf(PropTypes.string).isRequired,
    }).isRequired,
-   onAnswerChange: PropTypes.func.isRequired,
+   onResponseChange: PropTypes.func.isRequired,
 };
 
 export default CheckboxField;
