@@ -22,10 +22,12 @@ const DetailSurvey = () => {
 
    if (!survey) return <p>Loading...</p>;
 
+   console.log(survey);
+
    return (
       <div>
          <div>
-            <BackButton />
+            <BackButton relative='route' />
             <h1 className="inline text-3xl font-semibold text-gray-200 ml-2">{survey.name}</h1>
          </div>
 

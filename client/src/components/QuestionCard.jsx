@@ -45,7 +45,6 @@ const QuestionCard = ({ question, onDelete, onQuestionChange }) => {
                <option value="long-answer">Long Answer</option>
                <option value="multiple-choice">Multiple Choice</option>
                <option value="checkboxes">Checkboxes</option>
-               <option value="rating">Rating</option>
             </select>
          </div>
 

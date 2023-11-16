@@ -9,6 +9,7 @@ import EditSurvey from './pages/EditSurvey';
 import DetailSurvey from './pages/DetailSurvey';
 import SurveyForm from './pages/SurveyForm';
 import SurveyQuestion from './pages/SurveyQuestion';
+import SurveyResponse from './pages/SurveyResponse';
 
 const router = createBrowserRouter([
    {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
                },
                {
                   path: 'responses',
-                  element: <h1>Responses</h1>,
+                  element: <SurveyResponse />,
                }
             ],
          },

@@ -1,35 +1,19 @@
-import Question from "../models/question.model.js";
-import Survey from "../models/survey.model.js";
+import Question from '../models/question.model.js';
+import Response from '../models/response.model.js';
 
-export const updateQuestionResponse = async (req, res, next) => {
+// get all question and its responses for a survey
+export const getAll = async (req, res, next) => {
    const { surveyId } = req.params;
-   const { responses } = req.body;
-
-   console.log(surveyId);
-   console.log(responses);
 
    try {
-      const survey = await Survey.findById(surveyId);
-      const questions = await Question.find({ _id: { $in: survey.questions } });
+      const questions = await Question.find({ survey: surveyId }).populate('responses');
+      console.log(questions);
 
-      questions.forEach((question) => {
-         const response = responses[question._id];
-
-         if (response) {
-            question.responses.push(response);
-         }
-      });
-
-      await Promise.all(questions.map((question) => question.save()));
-
-      res.status(200).json({
-         success: true,
-         data: questions,
-      });
-   } catch (error) {
+      res.status(200).json({ success: true, data: questions });
+   }
+   catch (error) {
       next(error);
    }
 }
 
 
-   

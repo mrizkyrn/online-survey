@@ -22,3 +22,15 @@ export const createResponses = async (req, res, next) => {
       next(error);
    }
 };
+
+export const getAll = async (req, res, next) => {
+   const { surveyId } = req.params;
+
+   try {
+      const responses = await Response.find({ surveyId }).populate('questionId');
+
+      res.status(200).json({ success: true, data: responses });
+   } catch (error) {
+      next(error);
+   }
+};

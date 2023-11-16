@@ -110,4 +110,16 @@ export const deleteWithQuestions = async (req, res, next) => {
    } catch (error) {
       next(error);
    }
-}
+};
+
+// get all questions and responses for a survey
+export const getAllQuestionsAndResponses = async (req, res, next) => {
+   const { surveyId } = req.params;
+
+   try {
+      const questions = await Survey.findById(surveyId).populate('questions').select('questions').populate('questions.responses');
+      res.status(200).json({ success: true, data: questions });
+   } catch (error) {
+      next(error);
+   }
+};
