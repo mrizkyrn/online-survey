@@ -13,7 +13,7 @@ const SurveyResponse = () => {
 
    useEffect(() => {
       const getQuestions = async () => {
-         const res = await fetch(`http://localhost:3000/api/${survey._id}/questions?${new URLSearchParams({
+         const res = await fetch(`/api/${survey._id}/questions?${new URLSearchParams({
             type: filter.type.join(','),
             isRequired: filter.isRequired.join(','),
             sortBy: filter.sortBy.join(','),

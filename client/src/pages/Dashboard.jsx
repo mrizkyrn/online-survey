@@ -8,7 +8,7 @@ const Dashboard = () => {
 
    useEffect(() => {
       const getSurveys = async () => {
-         const res = await fetch('http://localhost:3000/api/surveys');
+         const res = await fetch('/api/surveys');
          const data = await res.json();
          setSurveys(data.data);
       };
@@ -17,7 +17,7 @@ const Dashboard = () => {
 
    const handleDelete = async (surveyId) => {
       try {
-         const res = await fetch(`http://localhost:3000/api/surveys/${surveyId}`, {
+         const res = await fetch(`/api/surveys/${surveyId}`, {
             method: 'DELETE',
             headers: {
                'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ const Dashboard = () => {
 
    const handleCreateSurvey = async () => {
       try {
-         const res = await fetch('http://localhost:3000/api/surveys/empty', {
+         const res = await fetch('/api/surveys/empty', {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',

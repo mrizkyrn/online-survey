@@ -35,7 +35,7 @@ const SurveyForm = () => {
 
    useEffect(() => {
       const getSurvey = async () => {
-         const res = await fetch(`http://localhost:3000/api/surveys/${id}`, {
+         const res = await fetch(`/api/surveys/${id}`, {
             method: 'GET',
             headers: {
                'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ const SurveyForm = () => {
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      const res = await fetch(`http://localhost:3000/api/responses`, {
+      const res = await fetch(`/api/responses`, {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',
