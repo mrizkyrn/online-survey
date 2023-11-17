@@ -8,7 +8,7 @@ const DetailSurvey = () => {
 
    useEffect(() => {
       const getSurvey = async () => {
-         const res = await fetch(`/api/surveys/${id}`, {
+         const res = await fetch(`https://online-survey-api.vercel.app/api/surveys/${id}`, {
             method: 'GET',
             headers: {
                'Content-Type': 'application/json',
