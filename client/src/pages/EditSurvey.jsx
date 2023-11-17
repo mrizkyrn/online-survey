@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import BackButton from '../components/BackButton';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import QuestionCard from '../components/QuestionCard';
 
 const EditSurvey = () => {
+   const navigate = useNavigate()
    const { id } = useParams();
    const [survey, setSurvey] = useState({
       name: '',
@@ -120,7 +121,12 @@ const EditSurvey = () => {
             }),
          });
          const data = await res.json();
-         console.log(data);
+         
+         if (data.success) {
+            alert("Survey saved successfully")
+            navigate("/")
+         }
+         
       } catch (err) {
          console.log(err);
       }

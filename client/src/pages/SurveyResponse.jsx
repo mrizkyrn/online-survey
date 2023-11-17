@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
+
 const SurveyResponse = () => {
    const { survey } = useOutletContext();
    const [questions, setQuestions] = useState([]);
@@ -11,12 +12,6 @@ const SurveyResponse = () => {
    });
 
    useEffect(() => {
-      console.log({ 
-         type: filter.type.join(','),
-         isRequired: filter.isRequired.join(','),
-         sortBy: filter.sortBy.join(','),
-       });
-
       const getQuestions = async () => {
          const res = await fetch(`http://localhost:3000/api/${survey._id}/questions?${new URLSearchParams({
             type: filter.type.join(','),
@@ -29,7 +24,10 @@ const SurveyResponse = () => {
             },
          });
          const data = await res.json();
-         setQuestions(data.data);
+         
+         if (data.success) {
+            setQuestions(data.data);
+         }
       }
 
       getQuestions();

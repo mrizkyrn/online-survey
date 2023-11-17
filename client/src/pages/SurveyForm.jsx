@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ShortField from '../components/ShortField';
 import LongField from '../components/LongField';
 import MultipleField from '../components/MultipleField';
@@ -22,6 +22,7 @@ const QuestionField = ({ question, onResponseChange }) => {
 };
 
 const SurveyForm = () => {
+   const navigate = useNavigate();
    const { id } = useParams();
    const [survey, setSurvey] = useState({
       name: '',
@@ -74,8 +75,6 @@ const SurveyForm = () => {
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      console.log(responses);
-
       const res = await fetch(`http://localhost:3000/api/responses`, {
          method: 'POST',
          headers: {
@@ -88,7 +87,10 @@ const SurveyForm = () => {
 
       const data = await res.json();
 
-      console.log(data);
+      if (data.success) {
+         alert('Response submitted successfully');
+         navigate('/');
+      }
    };
 
    return (

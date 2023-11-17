@@ -43,8 +43,8 @@ const Dashboard = () => {
             body: JSON.stringify({
                name: 'Untitled Survey',
                description: '',
-               startDate: '',
-               endDate: '',
+               startDate: Date.now(),
+               endDate: Date.now()
             }),
          });
          const data = await res.json();
