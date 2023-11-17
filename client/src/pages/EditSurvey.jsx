@@ -71,6 +71,7 @@ const EditSurvey = () => {
    const handleAddQuestion = () => {
       const newQuestion = {
          _id: Math.random().toString(36).substr(2, 9),
+         survey: id,
          question: '',
          type: 'short-answer',
          isRequired: false,
@@ -129,7 +130,7 @@ const EditSurvey = () => {
       <div className="bg-semiDark">
          <div>
             <BackButton relative="route" />
-            <h1 className="inline text-3xl font-semibold text-gray-200 ml-2">Update Survey</h1>
+            <h1 className="inline text-3xl font-semibold text-gray-200 ml-2">Survey</h1>
          </div>
 
          {survey && (
@@ -228,7 +229,7 @@ const EditSurvey = () => {
                   type="submit"
                   className="bg-[#415c8a] hover:bg-[#2d4369] px-5 py-2 rounded-md text-white font-semibold mt-5"
                >
-                  Update Survey
+                  Save Survey
                </button>
             </form>
          )}

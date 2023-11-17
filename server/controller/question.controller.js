@@ -7,7 +7,6 @@ export const getAll = async (req, res, next) => {
 
    try {
       const questions = await Question.find({ survey: surveyId }).populate('responses');
-      console.log(questions);
 
       res.status(200).json({ success: true, data: questions });
    }

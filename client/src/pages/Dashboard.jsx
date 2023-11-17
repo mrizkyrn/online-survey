@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SurveyCard from '../components/SurveyCard';
 
 const Dashboard = () => {
    const [surveys, setSurveys] = useState([]);
+   const navigate = useNavigate();
 
    useEffect(() => {
       const getSurveys = async () => {
@@ -32,13 +33,36 @@ const Dashboard = () => {
       }
    };
 
+   const handleCreateSurvey = async () => {
+      try {
+         const res = await fetch('http://localhost:3000/api/surveys/empty', {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+               name: 'Untitled Survey',
+               description: '',
+               startDate: '',
+               endDate: '',
+            }),
+         });
+         const data = await res.json();
+         console.log(data);
+
+         navigate(`${data.data._id}/edit`);
+      } catch (err) {
+         console.log(err);
+      }
+   }
+
    return (
       <div>
          <div className="flex justify-between items-center">
             <h1 className="text-3xl font-semibold text-light">Dashboard</h1>
-            <Link to="create" className="bg-primary px-5 py-3 rounded-md font-semibold text-light">
+            <button onClick={handleCreateSurvey} className="bg-primary px-5 py-3 rounded-md font-semibold text-light">
                Create Survey
-            </Link>
+            </button>
          </div>
          <div className="flex flex-col gap-5 mt-10">
             {surveys ? (

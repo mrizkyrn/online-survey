@@ -22,8 +22,6 @@ const DetailSurvey = () => {
 
    if (!survey) return <p>Loading...</p>;
 
-   console.log(survey);
-
    return (
       <div>
          <div>

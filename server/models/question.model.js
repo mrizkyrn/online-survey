@@ -2,6 +2,10 @@ import mongoose from 'mongoose';
 
 const questionSchema = new mongoose.Schema(
    {
+      survey: {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'Survey',
+      },
       question: {
          type: String,
          required: true,
