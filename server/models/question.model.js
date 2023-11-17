@@ -32,7 +32,14 @@ const questionSchema = new mongoose.Schema(
          },
       ],
    },
+   {
+      toJSON: { virtuals: true },
+   }
 );
+
+questionSchema.virtual('totalResponses').get(function () {
+   return this.responses.length;
+});
 
 const Question = mongoose.model('Question', questionSchema);
 

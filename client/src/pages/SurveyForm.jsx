@@ -52,14 +52,20 @@ const SurveyForm = () => {
       const newResponses = [...responses];
       const index = newResponses.findIndex((response) => response.questionId === questionId);
 
-      if (index === -1) {
-         newResponses.push({
-            response,
-            questionId,
-            surveyId: id,
-         });
+      if (response.trim() !== '') {
+         if (index === -1) {
+            newResponses.push({
+               response,
+               questionId,
+               surveyId: id,
+            });
+         } else {
+            newResponses[index].response = response;
+         }
       } else {
-         newResponses[index].response = response;
+         if (index !== -1) {
+            newResponses.splice(index, 1);
+         }
       }
 
       setResponses(newResponses);

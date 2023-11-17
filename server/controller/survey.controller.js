@@ -44,11 +44,9 @@ export const getById = async (req, res, next) => {
 };
 
 export const updateWithQuestions = async (req, res, next) => {
-   console.log(req.body);
    try {
       const { survey, questions } = req.body;
       const { surveyId } = req.params;
-      console.log(questions)
 
       const updatedSurvey = await Survey.findByIdAndUpdate(surveyId, survey, { new: true });
 
