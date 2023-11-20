@@ -9,6 +9,7 @@ import DetailSurvey from './pages/DetailSurvey';
 import SurveyForm from './pages/SurveyForm';
 import SurveyQuestion from './pages/SurveyQuestion';
 import SurveyResponse from './pages/SurveyResponse';
+import NotFound from './pages/NotFound';
 
 const router = createBrowserRouter([
    {
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
             element: <Dashboard />,
          },
          {
-            path: '/:id',
+            path: '/surveys/:id',
             element: <DetailSurvey />,
             children: [
                {
@@ -33,12 +34,16 @@ const router = createBrowserRouter([
             ],
          },
          {
-            path: '/:id/edit',
+            path: '/surveys/:id/edit',
             element: <EditSurvey />,
          },
          {
-            path: '/:id/viewform',
+            path: '/surveys/:id/viewform',
             element: <SurveyForm />,
+         },
+         {
+            path: '*',
+            element: <NotFound />,
          }
       ],
    },

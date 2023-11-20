@@ -16,7 +16,7 @@ const EditSurvey = () => {
 
    useEffect(() => {
       const getSurvey = async () => {
-         const res = await fetch(`https://online-survey-api.vercel.app/api/surveys/${id}`, {
+         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/surveys/${id}`, {
             method: 'GET',
             headers: {
                'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ const EditSurvey = () => {
       });
 
       try {
-         const res = await fetch(`https://online-survey-api.vercel.app/api/surveys/${id}`, {
+         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/surveys/${id}`, {
             method: 'PUT',
             headers: {
                'Content-Type': 'application/json',
@@ -233,7 +233,7 @@ const EditSurvey = () => {
                {/* Submit */}
                <button
                   type="submit"
-                  className="bg-[#415c8a] hover:bg-[#2d4369] px-5 py-2 rounded-md text-white font-semibold mt-5"
+                  className="bg-primary hover:bg-primaryLight px-5 py-2 rounded-md text-white font-semibold mt-5"
                >
                   Save Survey
                </button>

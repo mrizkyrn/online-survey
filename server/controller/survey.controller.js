@@ -32,12 +32,19 @@ export const getById = async (req, res, next) => {
    try {
       const { surveyId } = req.params;
 
-      const survey = await Survey.findById(surveyId).populate('questions');
+      if (surveyId.match(/^[0-9a-fA-F]{24}$/)) {
+         const survey = await Survey.findById(surveyId).populate('questions');
 
-      res.status(200).json({
-         success: true,
-         data: survey,
-      });
+         res.status(200).json({
+            success: true,
+            data: survey,
+         });
+      } else {
+         next({
+            statusCode: 400,
+            message: 'Invalid survey id',
+         });
+      }
    } catch (error) {
       next(error);
    }

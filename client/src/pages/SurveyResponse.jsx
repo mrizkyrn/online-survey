@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
-
+import Loading from '../components/Loading';
 
 const SurveyResponse = () => {
    const { survey } = useOutletContext();
@@ -10,25 +10,34 @@ const SurveyResponse = () => {
       isRequired: [],
       sortBy: [],
    });
+   const [loading, setLoading] = useState(false);
 
    useEffect(() => {
       const getQuestions = async () => {
-         const res = await fetch(`https://online-survey-api.vercel.app/api/${survey._id}/questions?${new URLSearchParams({
-            type: filter.type.join(','),
-            isRequired: filter.isRequired.join(','),
-            sortBy: filter.sortBy.join(','),
-          })}`, {
-            method: 'GET',
-            headers: {
-               'Content-Type': 'application/json',
-            },
-         });
+         setLoading(true);
+
+         const res = await fetch(
+            `${import.meta.env.VITE_API_URL}/api/${survey._id}/questions?${new URLSearchParams({
+               type: filter.type.join(','),
+               isRequired: filter.isRequired.join(','),
+               sortBy: filter.sortBy.join(','),
+            })}`,
+            {
+               method: 'GET',
+               headers: {
+                  'Content-Type': 'application/json',
+               },
+            }
+         );
          const data = await res.json();
-         
-         if (data.success) {
-            setQuestions(data.data);
+
+         if (!data.success) {
+            return;
          }
-      }
+
+         setQuestions(data.data);
+         setLoading(false);
+      };
 
       getQuestions();
    }, [filter, survey._id]);
@@ -51,7 +60,6 @@ const SurveyResponse = () => {
 
    return (
       <div>
-         {/* filter */}
          <div className="mt-10">
             <div className="mt-4">
                <div className="flex flex-col sm:flex-row justify-between gap-10">
@@ -147,8 +155,7 @@ const SurveyResponse = () => {
                         </div>
                      </div>
                   </div>
-                  {/* sort */}
-                  <div className="">
+                  <div>
                      <h2 className="text-lg font-semibold text-gray-200 mb-2">Sort by</h2>
                      <div>
                         <div className="flex items-center gap-3 mt-2">
@@ -166,7 +173,7 @@ const SurveyResponse = () => {
 
                         <div className="flex items-center gap-3 mt-2">
                            <input
-                              type='checkbox'
+                              type="checkbox"
                               id="question-type"
                               name="question-type"
                               checked={filter.sortBy.includes('type')}
@@ -182,57 +189,63 @@ const SurveyResponse = () => {
             </div>
 
             <div className="flex flex-col gap-3 mt-10">
-               {questions.map((question) => (
-                  <div key={question._id} className="p-4 rounded bg-gray-800">
-                     <h3 className="text-lg font-semibold text-light">{question.question}</h3>
-                     <p className='text-gray-400 text-sm'>{question.type} - {question.isRequired ? 'Required' : 'Not Required'}</p>
-                     <p className="text-gray-300 mt-4 mb-2">Total Responses: {question.totalResponses}</p>
-                     {question.type === 'short-answer' && (
-                        <div>
-                           {question.responses.map((response) => (
-                              <li key={response._id} className="text-gray-200">
-                                 {response.response}
-                              </li>
-                           ))}
-                        </div>
-                     )}
-                     {question.type === 'long-answer' && (
-                        <div>
-                           {question.responses.map((response) => (
-                              <li key={response._id} className="text-gray-200">
-                                 {response.response}
-                              </li>
-                           ))}
-                        </div>
-                     )}
-                     {question.type === 'multiple-choice' && (
-                        <div>
-                           {question.options.map((option) => (
-                              <div key={option} className="flex items-center pb-2">
-                                 <p className="text-gray-200">{option}</p>
-                                 <p className="text-gray-500 ml-4">
-                                    Responses: {question.responses.filter((r) => r.response === option).length}
-                                 </p>
-                              </div>
-                           ))}
-                        </div>
-                     )}
-                     {question.type === 'checkboxes' && (
-                        <div>
-                           {question.options.map((option) => (
-                              <div key={option} className="flex items-center mb-2">
-                                 <p className="text-gray-200">{option}</p>
-                                 <p className="text-gray-500 ml-4">
-                                    Responses: {question.responses.filter((r) => r.response.includes(option)).length}
-                                 </p>
-                              </div>
-                           ))}
-                        </div>
-                     )}
-                  </div>
-               ))}
+               {loading ? (
+                  <Loading />
+               ) : (
+                  questions.map((question) => (
+                     <div key={question._id} className="p-4 rounded bg-gray-800">
+                        <h3 className="text-lg font-semibold text-light">{question.question}</h3>
+                        <p className="text-gray-400 text-sm">
+                           {question.type} - {question.isRequired ? 'Required' : 'Not Required'}
+                        </p>
+                        <p className="text-gray-300 mt-4 mb-2">Total Responses: {question.totalResponses}</p>
+                        {question.type === 'short-answer' && (
+                           <div>
+                              {question.responses.map((response) => (
+                                 <li key={response._id} className="text-gray-200">
+                                    {response.response}
+                                 </li>
+                              ))}
+                           </div>
+                        )}
+                        {question.type === 'long-answer' && (
+                           <div>
+                              {question.responses.map((response) => (
+                                 <li key={response._id} className="text-gray-200">
+                                    {response.response}
+                                 </li>
+                              ))}
+                           </div>
+                        )}
+                        {question.type === 'multiple-choice' && (
+                           <div>
+                              {question.options.map((option) => (
+                                 <div key={option} className="flex items-center pb-2">
+                                    <p className="text-gray-200">{option}</p>
+                                    <p className="text-gray-500 ml-4">
+                                       Responses: {question.responses.filter((r) => r.response === option).length}
+                                    </p>
+                                 </div>
+                              ))}
+                           </div>
+                        )}
+                        {question.type === 'checkboxes' && (
+                           <div>
+                              {question.options.map((option) => (
+                                 <div key={option} className="flex items-center mb-2">
+                                    <p className="text-gray-200">{option}</p>
+                                    <p className="text-gray-500 ml-4">
+                                       Responses: {question.responses.filter((r) => r.response.includes(option)).length}
+                                    </p>
+                                 </div>
+                              ))}
+                           </div>
+                        )}
+                     </div>
+                  ))
+               )}
 
-               {questions.length === 0 ? <p className="text-gray-300 mt-5">No questions yet.</p> : null}
+               {questions.length === 0 ? <p className="text-gray-300 mt-5">No Response yet.</p> : null}
             </div>
          </div>
       </div>

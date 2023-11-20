@@ -5,6 +5,7 @@ import ShortField from '../components/ShortField';
 import LongField from '../components/LongField';
 import MultipleField from '../components/MultipleField';
 import CheckboxField from '../components/ChecboxField';
+import Loading from '../components/Loading';
 
 const QuestionField = ({ question, onResponseChange }) => {
    switch (question.type) {
@@ -32,22 +33,28 @@ const SurveyForm = () => {
       questions: [],
    });
    const [responses, setResponses] = useState([]);
+   const [loading, setLoading] = useState(false);
 
    useEffect(() => {
       const getSurvey = async () => {
-         const res = await fetch(`https://online-survey-api.vercel.app/api/surveys/${id}`, {
+         setLoading(true);
+         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/surveys/${id}`, {
             method: 'GET',
             headers: {
                'Content-Type': 'application/json',
             },
          });
          const data = await res.json();
+
+         if (!data.success) {
+            return;
+         }
+
          setSurvey(data.data);
+         setLoading(false);
       };
       getSurvey();
    }, [id]);
-
-   if (!survey) return <p>Loading...</p>;
 
    const handleResponseChange = (questionId, response) => {
       const newResponses = [...responses];
@@ -75,7 +82,7 @@ const SurveyForm = () => {
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      const res = await fetch(`https://online-survey-api.vercel.app/api/responses`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/responses`, {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',
@@ -94,27 +101,36 @@ const SurveyForm = () => {
    };
 
    return (
-      <div>
-         <h1 className="text-3xl font-semibold text-light">{survey.name}</h1>
-         <p className="text-gray-200 mt-5">{survey.description}</p>
-         <form className="flex flex-col gap-5 mt-10" onSubmit={handleSubmit}>
-            {survey.questions.map((question) => (
-               <div key={question._id}>
-                  <h2 className="text-base font-semibold text-gray-200 mb-3">
-                     {question.question} <span className="text-red-500">{question.isRequired ? '*' : null}</span>
-                  </h2>
-                  <QuestionField
-                     question={question}
-                     onResponseChange={(response) => handleResponseChange(question._id, response)}
-                  />
-               </div>
-            ))}
+      <>
+         {loading || !survey ? (
+            <Loading />
+         ) : (
+            <>
+               <h1 className="text-3xl font-semibold text-light">{survey.name}</h1>
+               <p className="text-gray-200 mt-5">{survey.description}</p>
+               <form className="flex flex-col gap-5 mt-10" onSubmit={handleSubmit}>
+                  {survey.questions.map((question) => (
+                     <div key={question._id}>
+                        <h2 className="text-base font-semibold text-gray-200 mb-3">
+                           {question.question} <span className="text-red-500">{question.isRequired ? '*' : null}</span>
+                        </h2>
+                        <QuestionField
+                           question={question}
+                           onResponseChange={(response) => handleResponseChange(question._id, response)}
+                        />
+                     </div>
+                  ))}
 
-            <button type="submit" className="w-full bg-primary px-5 py-3 rounded-md font-semibold text-light mt-12">
-               Submit
-            </button>
-         </form>
-      </div>
+                  <button
+                     type="submit"
+                     className="w-full bg-primary px-5 py-3 rounded-md font-semibold text-light mt-12"
+                  >
+                     Submit
+                  </button>
+               </form>
+            </>
+         )}
+      </>
    );
 };
 

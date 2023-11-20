@@ -22,7 +22,7 @@ export const getAll = async (req, res, next) => {
       sortBy = sortBy
          ? sortBy.split(',').map((field) => {
               const [key, order] = field.split(':');
-              return [key, order === 'desc' ? -1 : 1];
+              return [key, order === 'desc' ? 1 : -1];
            })
          : [['createdAt', -1]];
          

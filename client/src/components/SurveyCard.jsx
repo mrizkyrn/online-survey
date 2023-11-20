@@ -16,13 +16,13 @@ const SurveyCard = ({ survey, onDelete }) => {
                <h1 className="text-2xl font-bold text-gray-200">{survey.name}</h1>
                <div className="flex gap-5">
                   <Link
-                     to={`/${survey._id}/viewform`}
+                     to={`surveys/${survey._id}/viewform`}
                      className="text-gray-200 font-semibold hover:text-primary transition duration-200"
                   >
                      <LinkIcon className="w-5 h-5 " />
                   </Link>
                   <Link
-                     to={`/${survey._id}/edit`}
+                     to={`surveys/${survey._id}/edit`}
                      className="text-gray-200 font-semibold hover:text-primary transition duration-200"
                   >
                      <EditIcon className="w-5 h-5 " />
@@ -40,7 +40,7 @@ const SurveyCard = ({ survey, onDelete }) => {
          </div>
          <div className="flex justify-between items-center">
             <Link
-               to={`/${survey._id}`}
+               to={`surveys/${survey._id}`}
                className="text-gray-500 font-semibold hover:text-primary transition duration-200"
             >
                View Detail
